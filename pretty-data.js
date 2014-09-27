@@ -48,10 +48,16 @@
 */
 
 
-function pp() {
+function pp(opts) {
 	this.shift = ['\n']; // array of shifts
 	this.step = '  '; // 2 spaces
-	var maxdeep = 100, // nesting level
+	if(opts.step){    // Or however many we've specified.
+		this.step = '';
+		for(var i=0; i<opts.step; i++){
+			this.step += ' ';
+		}
+	}
+	var maxdeep = opts.maxdeep || 100, // nesting level
       ix = 0;
 
 	// initialize array with shifts //
@@ -67,8 +73,6 @@ pp.prototype.xml = function(text) {
 
 	var ar = text.replace(/>\s{0,}</g,"><")
 				 .replace(/</g,"~::~<")
-				 .replace(/xmlns\:/g,"~::~xmlns:")
-				 .replace(/xmlns\=/g,"~::~xmlns=")
 				 .split('~::~'),
 		len = ar.length,
 		inComment = false,
@@ -331,8 +335,10 @@ pp.prototype.sqlmin = function(text) {
 
 // --------------------------------------------------------------------------------------------
 
-exports.pd= new pp;	
-
+module.exports = {
+	pp: pp,
+	pd: new pp()	
+};
 
 
 
