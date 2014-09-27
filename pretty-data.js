@@ -49,6 +49,7 @@
 
 
 function pp(opts) {
+	opts = opts || {};
 	this.shift = ['\n']; // array of shifts
 	this.step = '  '; // 2 spaces
 	if(opts.step){    // Or however many we've specified.
